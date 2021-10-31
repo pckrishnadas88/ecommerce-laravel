@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductAdminController extends Controller
 {
@@ -37,6 +38,18 @@ class ProductAdminController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'price' => 'required|numeric|min:1',
+            'quantity' => 'required|numeric|min:1',
+        ]);
+       
+        if ($validator->fails()) {
+            return redirect('admin/products/create')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
     }
 
     /**
