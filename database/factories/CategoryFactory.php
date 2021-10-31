@@ -23,6 +23,8 @@ class CategoryFactory extends Factory
     {
         return [
             //
+            'name' => $this->faker->name(),
+            'description' => $this->faker->text(),
         ];
     }
 }

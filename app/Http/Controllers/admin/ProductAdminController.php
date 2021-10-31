@@ -5,6 +5,10 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Product;
+use App\Models\ProductImage;
+use App\Models\Category;
+
 
 class ProductAdminController extends Controller
 {
@@ -16,6 +20,12 @@ class ProductAdminController extends Controller
     public function index()
     {
         //
+        $products = Product::orderBy('id', 'desc')->get();     
+        return view('admin.products.index',
+            [
+                'products' => $products
+            ]
+        );
     }
 
     /**
@@ -25,8 +35,13 @@ class ProductAdminController extends Controller
      */
     public function create()
     {
-        //       
-        return view('admin.products.create');
+        //  
+        $categories = Category::all();     
+        return view('admin.products.create',
+            [
+                'categories' => $categories
+            ]
+        );
     }
 
     /**
@@ -43,6 +58,7 @@ class ProductAdminController extends Controller
             'description' => 'required',
             'price' => 'required|numeric|min:1',
             'quantity' => 'required|numeric|min:1',
+            'category_id' => 'required|numeric|min:1',
         ]);
        
         if ($validator->fails()) {
@@ -50,6 +66,36 @@ class ProductAdminController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
+        //
+        $files = [];
+
+        if($request->hasfile('images'))
+        {
+
+            foreach($request->file('images') as $file)
+            {
+
+                $name = time().rand(1,100).'.'.$file->extension();
+
+                $file->move(public_path('product-images'), $name);  
+
+                $files[] = $name;  
+
+            }
+
+        }
+        // TODO: add complete validations
+        $product = Product::create($request->all());        
+        $lastId = $product->id;
+        foreach($files as $f) 
+        {
+            $file= new ProductImage();
+            $file->image = $f;
+            $file->product_id = $lastId;
+            $file->save();
+        }
+        
+        return redirect('admin/products');
     }
 
     /**

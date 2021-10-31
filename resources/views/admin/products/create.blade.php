@@ -16,7 +16,7 @@
                 </ul>
             </div>
         @endif
-        <form action="/admin/products" method="POST">
+        <form action="/admin/products" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="title">Title</label>
@@ -33,6 +33,19 @@
             <div class="form-group">
                 <label for="title">Quantity</label>
                     <input type="text" name="quantity" class="form-control" value="{{ old('quantity') }}" id="title">
+            </div>
+            <div class="form-group">
+                <label for="title">Category</label>
+                <select name="category_id" class="form-control">
+                    @foreach ($categories as $c)
+                        <option value="{{ $c->id }}">{{ $c->name }}</option>
+                    @endforeach
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="title">Images</label>
+                    <input type="file" multiple name="images[]" class="form-control" value="{{ old('quantity') }}" id="title">
             </div>
             <button type="submit" class="btn btn-primary">Create Product</button>
         </form>
