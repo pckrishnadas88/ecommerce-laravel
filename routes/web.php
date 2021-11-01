@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductController;
 */
 
 Route::get('/', [ProductController::class, 'index']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::prefix('admin')->group(function () {    
     Route::resource('products', ProductAdminController::class);
