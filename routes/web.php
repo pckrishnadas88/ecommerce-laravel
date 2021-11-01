@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\ProductAdminController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,11 @@ use App\Http\Controllers\ProductController;
 |
 */
 
+
 Route::get('/', [ProductController::class, 'index']);
+Route::get('/login', [LoginController::class, 'login']);
+Route::post('/authenticate', [LoginController::class, 'authenticate']);
+
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::prefix('admin')->group(function () {    

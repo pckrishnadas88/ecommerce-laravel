@@ -15,7 +15,9 @@
                 <img src="{{ url('product-images/'.$p->images[0]->image) }}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ substr($p->title, 0, 25) }}</h5>
-                    <p class="card-text">&#8377; {{ $p->price }}</p>
+                    <h5 class="card-text text-primary">&#8377; {{ $p->price }}</h5>
+                    <div class="badge badge-warning mt-3 mb-3" style="font-size:15px;">{{$p->category->name}}</div>
+                    <br>
                     <a href="/products/{{ $p->id }}" class="btn btn-primary">View more details</a>
                 </div>
             </div>
