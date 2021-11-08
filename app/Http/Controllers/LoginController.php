@@ -27,12 +27,34 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = Auth::user();           
+            if($user->role == 'admin') {
+                return redirect()->intended('admin/products');
+            }
+            return redirect()->intended('/');
 
-            return redirect()->intended('admin/products');
+            
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
+    }
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+    */
+    public function logout(Request $request)
+    {
+        
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();        
+
+        return redirect('/');
     }
 }

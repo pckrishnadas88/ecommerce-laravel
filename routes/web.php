@@ -20,9 +20,10 @@ use App\Http\Controllers\LoginController;
 Route::get('/', [ProductController::class, 'index']);
 Route::get('/login', [LoginController::class, 'login']);
 Route::post('/authenticate', [LoginController::class, 'authenticate']);
+Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
-Route::prefix('admin')->group(function () {    
+Route::prefix('admin')->middleware('admin')->group(function () {    
     Route::resource('products', ProductAdminController::class);
 });
