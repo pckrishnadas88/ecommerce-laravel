@@ -10,7 +10,7 @@
             <br>
                 <a href="/admin/products/create" class="btn btn-secondary btn-lg" tabindex="-1" role="button">Create Product</a>
             <hr>
-            <table class="table table-responsive">
+            <table id="my-tbl" class="table table-responsive">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">#</th>
