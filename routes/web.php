@@ -27,3 +27,7 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::prefix('admin')->middleware('admin')->group(function () {    
     Route::resource('products', ProductAdminController::class);
 });
+
+Route::get('/vue', function () {
+    return view('vue');
+});
